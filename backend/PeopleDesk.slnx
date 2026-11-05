@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PeopleDesk.Api/PeopleDesk.Api.csproj" />
+    <Project Path="src/PeopleDesk.Application/PeopleDesk.Application.csproj" />
+    <Project Path="src/PeopleDesk.Domain/PeopleDesk.Domain.csproj" />
+    <Project Path="src/PeopleDesk.Infrastructure/PeopleDesk.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PeopleDesk.IntegrationTests/PeopleDesk.IntegrationTests.csproj" />
+    <Project Path="tests/PeopleDesk.UnitTests/PeopleDesk.UnitTests.csproj" />
+  </Folder>
+</Solution>

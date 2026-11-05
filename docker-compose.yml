@@ -1,0 +1,76 @@
+name: peopledesk
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: peopledesk-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-peopledesk}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-peopledesk_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-peopledesk}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-peopledesk} -d ${POSTGRES_DB:-peopledesk}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/src/PeopleDesk.Api/Dockerfile
+    container_name: peopledesk-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      ConnectionStrings__PostgreSQL: Host=postgres;Port=5432;Database=${POSTGRES_DB:-peopledesk};Username=${POSTGRES_USER:-peopledesk};Password=${POSTGRES_PASSWORD:-peopledesk_dev_password}
+      JWT__SECRET: ${JWT__SECRET:?Set JWT__SECRET in .env (min 32 chars)}
+      JWT__Issuer: ${JWT__Issuer:-peopledesk}
+      JWT__Audience: ${JWT__Audience:-peopledesk-web}
+      Auth__FrontendBaseUrl: ${Auth__FrontendBaseUrl:-http://localhost:80}
+      Platform__SuperAdminEmail: ${Platform__SuperAdminEmail:-superadmin@peopledesk.local}
+      Platform__SuperAdminPassword: ${Platform__SuperAdminPassword:-ChangeMe_Platform#2026}
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-false}
+      Email__Mode: ${Email__Mode:-FileSink}
+      Email__SinkPath: /app/logs/dev-emails
+      Email__Host: ${Email__Host:-}
+      Email__Port: ${Email__Port:-587}
+      Email__Username: ${Email__Username:-}
+      Email__Password: ${Email__Password:-}
+      Storage__Root: /app/data/files
+      Serilog__MinimumLevel: Information
+    volumes:
+      - api-data:/app/data
+      - api-logs:/app/logs
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: peopledesk-web
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  api-data:
+  api-logs:

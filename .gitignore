@@ -1,0 +1,114 @@
+# =========================================================
+# PeopleDesk — .NET backend + Vite/React frontend
+# =========================================================
+
+# ---------- Secrets & environment ----------
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.pem
+*.key
+secrets.json
+appsettings.*.local.json
+appsettings.Local.json
+
+# ---------- .NET build output ----------
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ll]og/
+artifacts/
+publish/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+*.nuget.props
+*.nuget.targets
+.dotnet/
+
+# ---------- .NET tests & coverage ----------
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+.coverage/
+
+# ---------- Runtime data (local dev) ----------
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.sqlite
+*.sqlite3
+# Uploaded files (payslips, documents) stored by the API
+backend/src/PeopleDesk.Api/data/
+**/uploads/
+# Logs
+logs/
+*.log
+# Email sinks used in development
+test-email-sink/
+dev-emails/
+
+# ---------- Node / frontend ----------
+node_modules/
+dist/
+dist-ssr/
+build/
+.vite/
+*.local
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+.npm/
+.yarn/
+!.yarn/releases
+
+# ---------- IDEs & editors ----------
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+*.swp
+*.swo
+*~
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------- Docker ----------
+docker-compose.override.yml
+
+# ---------- Misc ----------
+*.tmp
+*.bak
+.cache/
