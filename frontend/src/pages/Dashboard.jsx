@@ -7,6 +7,7 @@ import {
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, LineChart, Line, Legend,
 } from 'recharts'
+import { chartTooltipProps, chartTick } from '../lib/chartTheme'
 import { useAuth } from '../auth/AuthContext'
 import {
   useOrgDashboard, useHeadcountReport, usePayrollExpenses, useLeaveRequests,
@@ -81,9 +82,9 @@ function AdminDashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={deptData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-700" />
-                  <XAxis dataKey="label" tick={{ fontSize: 11 }} interval={0} angle={-20} textAnchor="end" height={50} />
-                  <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                  <Tooltip />
+                  <XAxis dataKey="label" tick={chartTick} interval={0} angle={-20} textAnchor="end" height={50} />
+                  <YAxis allowDecimals={false} tick={chartTick} />
+                  <Tooltip {...chartTooltipProps} cursor={{ fill: 'rgba(148, 163, 184, 0.1)' }} />
                   <Bar dataKey="count" name="Employees" fill="#2563eb" radius={[4, 4, 0, 0]} maxBarSize={40} />
                 </BarChart>
               </ResponsiveContainer>
@@ -101,9 +102,9 @@ function AdminDashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={expenseData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-700" />
-                  <XAxis dataKey="period" tick={{ fontSize: 11 }} />
-                  <YAxis tick={{ fontSize: 11 }} width={56} />
-                  <Tooltip formatter={(v) => Number(v).toLocaleString()} />
+                  <XAxis dataKey="period" tick={chartTick} />
+                  <YAxis tick={chartTick} width={56} />
+                  <Tooltip {...chartTooltipProps} formatter={(v) => Number(v).toLocaleString()} />
                   <Legend />
                   <Line type="monotone" dataKey="Gross" stroke="#2563eb" strokeWidth={2} dot={false} />
                   <Line type="monotone" dataKey="Deductions" stroke="#f59e0b" strokeWidth={2} dot={false} />

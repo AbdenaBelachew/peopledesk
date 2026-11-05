@@ -7,6 +7,34 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Design tokens — surfaces and chart colors for both themes.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --pd-page: #f8fafc;
+  --pd-surface: #ffffff;
+  --pd-surface-2: #f1f5f9;
+  --pd-border: #e2e8f0;
+  /* Recharts tooltip */
+  --pd-tt-bg: rgba(255, 255, 255, 0.98);
+  --pd-tt-border: #e2e8f0;
+  --pd-tt-text: #0f172a;
+  --pd-tt-shadow: 0 8px 24px -8px rgba(15, 23, 42, 0.18);
+  color-scheme: light;
+}
+
+.dark {
+  --pd-page: #020617;
+  --pd-surface: #0f172a;
+  --pd-surface-2: #1e293b;
+  --pd-border: #1e293b;
+  --pd-tt-bg: #1e293b;
+  --pd-tt-border: #334155;
+  --pd-tt-text: #e2e8f0;
+  --pd-tt-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
 html {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -14,13 +42,73 @@ html {
 
 body {
   margin: 0;
+  background-color: var(--pd-page);
 }
 
-/* Thin scrollbars for dense tables */
+/* Smooth theme switch without morphing every element mid-layout. */
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.25s ease,
+    fill 0.25s ease,
+    stroke 0.25s ease !important;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.2);
+}
+.dark ::selection {
+  background: rgba(59, 130, 246, 0.4);
+}
+
+/* Thin scrollbars */
 * {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
 }
 .dark * {
   scrollbar-color: #475569 transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: rgba(100, 116, 139, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.6);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Motion — quiet, functional transitions only.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@keyframes pd-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pd-fade-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pd-scale-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.anim-fade-in { animation: pd-fade-in 0.2s ease-out both; }
+.anim-fade-up { animation: pd-fade-up 0.25s ease-out both; }
+.anim-scale-in { animation: pd-scale-in 0.15s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-in, .anim-fade-up, .anim-scale-in {
+    animation: none;
+  }
 }

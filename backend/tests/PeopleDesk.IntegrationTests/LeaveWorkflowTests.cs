@@ -41,8 +41,10 @@ public class LeaveWorkflowTests : IClassFixture<TestApiFactory>
 
     private static DateOnly NextMonday()
     {
+        // Must actually land on a Monday: a Mon–Wed range is always 3 working days,
+        // while now+14 rounded past weekends can cross one and change the day count.
         var d = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(14);
-        while (d.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) d = d.AddDays(1);
+        while (d.DayOfWeek != DayOfWeek.Monday) d = d.AddDays(1);
         return d;
     }
 

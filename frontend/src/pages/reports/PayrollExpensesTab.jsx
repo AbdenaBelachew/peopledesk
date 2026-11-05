@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts'
+import { chartTooltipProps, chartTick } from '../../lib/chartTheme'
 import { Download } from 'lucide-react'
 import { usePayrollExpenses, usePayrollPeriods } from '../../api/queries'
 import { useToast } from '../../components/ui/Toast'
@@ -56,9 +57,9 @@ export default function PayrollExpensesTab() {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-700" />
-                <XAxis dataKey="period" tick={{ fontSize: 11 }} />
-                <YAxis tick={{ fontSize: 11 }} width={64} />
-                <Tooltip formatter={(v) => Number(v).toLocaleString()} />
+                <XAxis dataKey="period" tick={chartTick} />
+                <YAxis tick={chartTick} width={64} />
+                <Tooltip {...chartTooltipProps} formatter={(v) => Number(v).toLocaleString()} />
                 <Legend />
                 <Line type="monotone" dataKey="Gross" stroke="#2563eb" strokeWidth={2} />
                 <Line type="monotone" dataKey="Deductions" stroke="#f59e0b" strokeWidth={2} />

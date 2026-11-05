@@ -19,7 +19,13 @@ export default function Tabs({ tabs, active, onChange, className = '' }) {
             >
               {t.label}
               {typeof t.count === 'number' && (
-                <span className="ml-1.5 rounded-full bg-slate-100 px-1.5 py-0.5 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <span
+                  className={`ml-1.5 rounded-full px-1.5 py-0.5 text-xs ${
+                    selected
+                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300'
+                      : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+                  }`}
+                >
                   {t.count}
                 </span>
               )}

@@ -1,4 +1,5 @@
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts'
+import { chartTooltipProps, chartTick } from '../../lib/chartTheme'
 import { Users, UserCheck, Hourglass, UserMinus } from 'lucide-react'
 import { useHeadcountReport } from '../../api/queries'
 import { useToast } from '../../components/ui/Toast'
@@ -72,7 +73,7 @@ function PieCard({ title, data }) {
               <Pie data={data} dataKey="count" nameKey="label" innerRadius={40} outerRadius={80} paddingAngle={2}>
                 {data.map((entry, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
               </Pie>
-              <Tooltip />
+              <Tooltip {...chartTooltipProps} />
               <Legend wrapperStyle={{ fontSize: 12 }} />
             </PieChart>
           </ResponsiveContainer>

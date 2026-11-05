@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts'
+import { chartTooltipProps, chartTick } from '../../lib/chartTheme'
 import { useLeaveUtilization } from '../../api/queries'
 import { colorFromString } from '../../lib/format'
 import Card from '../../components/ui/Card'
@@ -42,9 +43,9 @@ export default function LeaveTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-700" />
-                <XAxis dataKey="label" tick={{ fontSize: 11 }} />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                <Tooltip />
+                <XAxis dataKey="label" tick={chartTick} />
+                <YAxis allowDecimals={false} tick={chartTick} />
+                <Tooltip {...chartTooltipProps} />
                 <Legend />
                 <Bar dataKey="Entitled" fill="#94a3b8" radius={[3, 3, 0, 0]} maxBarSize={48} />
                 <Bar dataKey="Used" fill="#2563eb" radius={[3, 3, 0, 0]} maxBarSize={48} />

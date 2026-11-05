@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   ResponsiveContainer, ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
 } from 'recharts'
+import { chartTooltipProps, chartTick } from '../../lib/chartTheme'
 import { dateInput } from '../../lib/format'
 import { useAttendanceTrends } from '../../api/queries'
 import { useToast } from '../../components/ui/Toast'
@@ -70,9 +71,9 @@ export default function AttendanceTab() {
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={points} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-700" />
-                <XAxis dataKey="label" tick={{ fontSize: 10 }} interval="preserveStartEnd" />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                <Tooltip />
+                <XAxis dataKey="label" tick={chartTick} interval="preserveStartEnd" />
+                <YAxis allowDecimals={false} tick={chartTick} />
+                <Tooltip {...chartTooltipProps} />
                 <Legend />
                 <Bar dataKey="present" name="Present" stackId="a" fill="#2563eb" />
                 <Bar dataKey="late" name="Late" stackId="a" fill="#f59e0b" />

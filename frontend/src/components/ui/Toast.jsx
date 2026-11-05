@@ -16,10 +16,10 @@ const ICONS = {
 }
 
 const COLORS = {
-  success: 'text-emerald-500',
-  error: 'text-red-500',
-  warning: 'text-amber-500',
-  info: 'text-blue-500',
+  success: 'text-emerald-500 border-l-emerald-500',
+  error: 'text-red-500 border-l-red-500',
+  warning: 'text-amber-500 border-l-amber-500',
+  info: 'text-blue-500 border-l-blue-500',
 }
 
 let counter = 0
@@ -66,10 +66,10 @@ export function ToastProvider({ children }) {
           return (
             <div
               key={t.id}
-              className="flex items-start gap-2.5 rounded-lg border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-700 dark:bg-slate-800"
+              className={`anim-fade-in flex items-start gap-2.5 rounded-xl border border-l-4 border-slate-200 bg-white p-3 shadow-lg dark:border-slate-700 dark:bg-slate-800 ${(COLORS[t.type] || COLORS.info).split(' ')[1] || 'border-l-blue-500'}`}
               role="status"
             >
-              <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${COLORS[t.type] || COLORS.info}`} aria-hidden="true" />
+              <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${(COLORS[t.type] || COLORS.info).split(' ')[0]}`} aria-hidden="true" />
               <p className="flex-1 text-sm text-slate-700 dark:text-slate-200">{t.message}</p>
               <button
                 type="button"

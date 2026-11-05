@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "PeopleDesk (local)",
+      "Group": "PeopleDesk",
+      "Host": "host.docker.internal",
+      "Port": 5432,
+      "MaintenanceDB": "peopledesk",
+      "Username": "peopledesk",
+      "Password": "",
+      "SSLMode": "prefer",
+      "Comment": "PeopleDesk HR & Payroll database on the local PostgreSQL service. Enter the database password from .env (POSTGRES_PASSWORD) on first connect."
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
+import { chartTooltipProps, chartTick } from '../../lib/chartTheme'
 import { Users, UserPlus, UserMinus, Percent } from 'lucide-react'
 import { useTurnover } from '../../api/queries'
 import Card from '../../components/ui/Card'
@@ -43,9 +44,9 @@ export default function TurnoverTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={d.exitsByMonth} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-700" />
-                <XAxis dataKey="label" tick={{ fontSize: 11 }} />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                <Tooltip />
+                <XAxis dataKey="label" tick={chartTick} />
+                <YAxis allowDecimals={false} tick={chartTick} />
+                <Tooltip {...chartTooltipProps} />
                 <Bar dataKey="count" name="Exits" fill="#ef4444" radius={[4, 4, 0, 0]} maxBarSize={36} />
               </BarChart>
             </ResponsiveContainer>

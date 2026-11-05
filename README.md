@@ -33,8 +33,9 @@ peopledesk/
 │       ├── PeopleDesk.UnitTests/        # tax schedules, attendance calculator, CSV
 │       └── PeopleDesk.IntegrationTests/ # auth, tenant isolation, employee CRUD, leave, payroll (SQLite)
 ├── frontend/                            # React SPA (Vite, Tailwind, TanStack Query)
+├── pgadmin/servers.json                 # pgAdmin pre-registered server (local PostgreSQL)
 ├── docs/api-contract.md                 # full REST contract (v1)
-├── docker-compose.yml                   # postgres + api + web (nginx)
+├── docker-compose.yml                   # postgres + pgadmin + api + web (nginx)
 ├── .github/workflows/ci.yml             # build + tests + docker images
 └── .env.example
 ```
@@ -70,6 +71,20 @@ dotnet run --project src/PeopleDesk.Api --urls http://localhost:5090
 cd frontend && npm install && npm run dev      # http://localhost:5173 (proxies /api → 5090)
 ```
 
+## Database administration (pgAdmin)
+
+Browse and query the PeopleDesk database in a preconfigured pgAdmin instance:
+
+```bash
+docker compose up -d pgadmin
+```
+
+- URL: http://localhost:5050 — log in with `PGADMIN_DEFAULT_EMAIL` / `PGADMIN_DEFAULT_PASSWORD` (see `.env`, defaults `pgadmin@peopledesk.dev` / `pgadmin_dev_password`).
+- The server **“PeopleDesk (local)”** is auto-registered on first start (`pgadmin/servers.json` → `host.docker.internal:5432`, maintenance DB `peopledesk`). It prompts for the database password once — use your `POSTGRES_PASSWORD`.
+- The committed `servers.json` intentionally contains **no password**. To auto-connect, copy it to a private copy with a `"Password"` field, or just let pgAdmin remember the password in your browser session.
+
+The API applies EF Core migrations and seeds the permission catalog, subscription plans, the platform super admin — and with `SEED_DEMO_DATA=true`, the “Acme Trading PLC” demo tenant — automatically at startup.
+
 ## Demo data (development only)
 
 Start the API with `SEED_DEMO_DATA=true` to get a tenant **“Acme Trading PLC”** with seven employees, salary structures, attendance history, leave balances and a finalized payroll run:
@@ -98,6 +113,7 @@ All settings are environment-driven (see [.env.example](.env.example)):
 | `Email__Mode` | `FileSink` (dev: writes `.eml` to `Email__SinkPath`) or `Smtp` |
 | `Storage__Root` | File storage root (employee documents, payslips) |
 | `SEED_DEMO_DATA` | `true` seeds demo tenant (dev only) |
+| `PGADMIN_DEFAULT_EMAIL` / `PGADMIN_DEFAULT_PASSWORD` | pgAdmin UI login (http://localhost:5050 via `docker compose up -d pgadmin`) |
 
 ## Payroll rules — Ethiopia module
 

@@ -2,7 +2,7 @@ import { forwardRef, useId } from 'react'
 import Label from './Label'
 
 const BASE =
-  'w-full rounded-md border bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-60 disabled:bg-slate-50 dark:disabled:bg-slate-800'
+  'w-full rounded-lg border bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-60 disabled:bg-slate-50 dark:disabled:bg-slate-800'
 
 function FieldShell({ id, label, error, hint, className, children }) {
   return (
@@ -18,21 +18,26 @@ function FieldShell({ id, label, error, hint, className, children }) {
 export { FieldShell, BASE }
 
 const Input = forwardRef(function Input(
-  { label, error, hint, className = '', id, type = 'text', ...rest },
+  { label, error, hint, className = '', id, type = 'text', trailing, ...rest },
   ref,
 ) {
   const autoId = useId()
   const inputId = id || autoId
   return (
     <FieldShell id={inputId} label={label} error={error} hint={hint} className={className}>
-      <input
-        ref={ref}
-        id={inputId}
-        type={type}
-        aria-invalid={!!error || undefined}
-        className={`${BASE} ${error ? 'border-red-400 focus:ring-red-500 focus:border-red-500' : 'border-slate-300 dark:border-slate-700'}`}
-        {...rest}
-      />
+      <div className={trailing ? 'relative' : undefined}>
+        <input
+          ref={ref}
+          id={inputId}
+          type={type}
+          aria-invalid={!!error || undefined}
+          className={`${BASE} ${error ? 'border-red-400 focus:ring-red-500 focus:border-red-500' : 'border-slate-300 dark:border-slate-700'} ${trailing ? 'pr-10' : ''}`}
+          {...rest}
+        />
+        {trailing && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2.5">{trailing}</div>
+        )}
+      </div>
     </FieldShell>
   )
 })

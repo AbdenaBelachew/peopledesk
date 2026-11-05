@@ -9,6 +9,7 @@ import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import Badge from '../../components/ui/Badge'
 import Spinner from '../../components/ui/Spinner'
+import PageHeader from '../../components/ui/PageHeader'
 
 export default function TwoFactor() {
   const { user, refreshUser } = useAuth()
@@ -55,7 +56,9 @@ export default function TwoFactor() {
   }
 
   return (
-    <Card title="Two-factor authentication" subtitle="Add a second step when signing in.">
+    <div>
+      <PageHeader title="Security" subtitle="Add a second step when signing in." />
+      <Card>
       {!user ? (
         <div className="py-8 text-center"><Spinner className="mx-auto" /></div>
       ) : user.twoFactorEnabled ? (
@@ -124,7 +127,8 @@ export default function TwoFactor() {
           </Button>
         </div>
       )}
-    </Card>
+      </Card>
+    </div>
   )
 }
 

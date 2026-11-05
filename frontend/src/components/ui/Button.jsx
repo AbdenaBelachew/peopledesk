@@ -3,11 +3,11 @@ import { Loader2 } from 'lucide-react'
 
 const VARIANTS = {
   primary:
-    'bg-blue-600 text-white border border-transparent hover:bg-blue-700 focus-visible:ring-blue-500',
+    'bg-blue-600 text-white border border-transparent hover:bg-blue-700 active:bg-blue-800 focus-visible:ring-blue-500',
   secondary:
     'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 focus-visible:ring-blue-500',
   danger:
-    'bg-red-600 text-white border border-transparent hover:bg-red-700 focus-visible:ring-red-500',
+    'bg-red-600 text-white border border-transparent hover:bg-red-700 active:bg-red-800 focus-visible:ring-red-500',
   ghost:
     'text-slate-600 dark:text-slate-300 border border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 focus-visible:ring-blue-500',
   subtle:
@@ -31,7 +31,7 @@ const Button = forwardRef(function Button(
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 disabled:opacity-50 disabled:pointer-events-none ${VARIANTS[variant] || VARIANTS.primary} ${SIZES[size] || SIZES.md} ${className}`}
+      className={`inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 disabled:opacity-50 disabled:pointer-events-none ${VARIANTS[variant] || VARIANTS.primary} ${SIZES[size] || SIZES.md} ${className}`}
       {...rest}
     >
       {loading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}

@@ -22,8 +22,8 @@ export default function Modal({ open, onClose, title, size = 'md', children, foo
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={title || 'Dialog'}>
-      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-[1px]" onClick={onClose} aria-hidden="true" />
-      <div className={`relative flex max-h-[90vh] w-full flex-col rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-900 ${SIZES[size] || SIZES.md}`}>
+      <div className="anim-fade-in absolute inset-0 bg-slate-900/50" onClick={onClose} aria-hidden="true" />
+      <div className={`anim-scale-in relative flex max-h-[90vh] w-full flex-col rounded-xl border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-900 ${SIZES[size] || SIZES.md}`}>
         <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
           <button

@@ -19,6 +19,24 @@ services:
       retries: 10
     restart: unless-stopped
 
+  pgadmin:
+    image: dpage/pgadmin4:9
+    container_name: peopledesk-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin@peopledesk.dev}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-pgadmin_dev_password}
+      # Local dev convenience: the enhanced cookie protection trips on changing
+      # client IPs (VPN/Wi-Fi switches). Keep it on behind a public proxy.
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      # Pre-registers the "PeopleDesk (local)" server (host.docker.internal:5432).
+      # Import runs on first container start; delete the pgadmin-data volume to re-import.
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+
   api:
     build:
       context: .
@@ -72,5 +90,6 @@ services:
 
 volumes:
   postgres-data:
+  pgadmin-data:
   api-data:
   api-logs:

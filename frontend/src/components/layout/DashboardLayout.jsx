@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Users, Clock, CalendarDays, Wallet, FileText, BarChart3,
   Settings, Shield, Bell, Sun, Moon, Menu, LogOut, X, ChevronLeft, CheckCheck,
@@ -60,9 +60,9 @@ function NavItems({ collapsed, onNavigate, user }) {
             onClick={onNavigate}
             title={collapsed ? item.label : undefined}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+              `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
                 isActive
-                  ? 'bg-blue-600/20 text-white'
+                  ? 'bg-white/10 text-white'
                   : 'text-slate-400 hover:bg-white/5 hover:text-slate-100'
               } ${collapsed ? 'justify-center px-0' : ''}`
             }
@@ -81,7 +81,7 @@ function SidebarBody({ collapsed, onNavigate, user, mobile = false }) {
     <div className="flex h-full flex-col bg-[#0f172a]">
       <Brand collapsed={collapsed} />
       {mobile && user && (
-        <div className="mx-4 mb-2 rounded-md bg-white/5 px-3 py-2">
+        <div className="mx-4 mb-2 rounded-lg bg-white/5 px-3 py-2">
           <p className="truncate text-sm font-medium text-white">{user.organizationName || 'Platform'}</p>
           <p className="truncate text-xs text-slate-400">{user.email}</p>
         </div>
@@ -123,7 +123,7 @@ function Dropdown({ button, children, align = 'right', width = 'w-72' }) {
       {button({ open, toggle: () => setOpen((o) => !o) })}
       {open && (
         <div
-          className={`absolute ${align === 'right' ? 'right-0' : 'left-0'} mt-2 ${width} rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900`}
+          className={`anim-scale-in absolute ${align === 'right' ? 'right-0' : 'left-0'} mt-2 ${width} rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900`}
         >
           {children({ close: () => setOpen(false) })}
         </div>
@@ -286,6 +286,7 @@ function UserMenu() {
 /** App shell: navy sidebar (collapsible / mobile drawer), sticky topbar, content outlet. */
 export default function DashboardLayout() {
   const { user } = useAuth()
+  const location = useLocation()
   const [collapsed, setCollapsed] = useState(() => {
     try { return localStorage.getItem('pd_sidebar') === 'collapsed' } catch { return false }
   })
@@ -296,7 +297,7 @@ export default function DashboardLayout() {
   }, [collapsed])
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950">
+    <div className="min-h-screen">
       {/* Desktop sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 hidden md:flex md:flex-col transition-[width] duration-200 ${collapsed ? 'w-16' : 'w-64'}`}
@@ -306,7 +307,7 @@ export default function DashboardLayout() {
           type="button"
           onClick={() => setCollapsed((c) => !c)}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          className="absolute -right-3 top-16 hidden h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 md:flex"
+          className="absolute -right-3 top-16 hidden h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-200 md:flex"
         >
           <ChevronLeft className={`h-3.5 w-3.5 transition-transform ${collapsed ? 'rotate-180' : ''}`} aria-hidden="true" />
         </button>
@@ -331,7 +332,7 @@ export default function DashboardLayout() {
       )}
 
       <div className={`flex min-h-screen flex-col transition-[padding] duration-200 ${collapsed ? 'md:pl-16' : 'md:pl-64'}`}>
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-slate-200 bg-white/95 px-3 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95 sm:px-4">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-slate-200 bg-white px-3 dark:border-slate-800 dark:bg-slate-900 sm:px-4">
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
@@ -350,7 +351,9 @@ export default function DashboardLayout() {
           </div>
         </header>
         <main className="mx-auto w-full max-w-7xl flex-1 p-4 sm:p-6">
-          <Outlet />
+          <div key={location.pathname} className="anim-fade-up">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
